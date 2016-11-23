@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Toucan - Students list</title>
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="students-list container well">
+            <div class="row">
+            <div class="add-student col-sm-8">
+            <p>
+                <a href="/toucan/students/create" class="btn btn-default btn-lg">Add student</a>
+            </p>
+            </div>
+            <div class="select-school col-sm-4">
+                <form method="GET" action="list" id="select-school-form">
+                    <select id="schools-list" class="form-control selectpicker" name="school_name">
+                        <option value="" <?php echo (!isset($school_name) ? 
+                            'selected= `selected`' : '') ?>>Please select a school</option>
+                            <?php if(isset($schools)) {
+                                for($i = 0; $i < sizeof($schools); $i++) {
+                                    echo "<option value=" . $schools[$i][0] . " " . 
+                                        (isset($school_name) && $school_name == $schools[$i][0] ? 
+                                            "selected= `selected`" : "") . ">" . $schools[$i][0] . 
+                                        "</option>";
+                                }
+                            } ?>
+                        </select>
+                        <button type="submit" class="btn">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Name</th>
+                    <th>Email Address</th>
+                    <th>School</th>
+                </tr>
+                <?php
+                   if(isset($students)) {
+                      for($j = 0; $j < sizeof($students); $j++) {
+                         echo "<tr>";
+                         echo "<td>" . $students[$j]['name']   . "</td>";
+                         echo "<td>" . $students[$j]['email']  . "</td>";
+                         echo "<td>" . $students[$j]['school'] . "</td>";
+                         echo "</tr>";
+                      }
+                   }
+                 ?>
+            </table>
+            <?php
+                if(!isset($students) || empty($students)) {
+                    echo "<p>There is no student stored in database.</p>";
+                }
+            ?>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/form-validation.js"></script>
+    </body>
+</html>
